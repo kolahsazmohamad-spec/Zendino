@@ -47,7 +47,7 @@ function goals(){return `<div class="card"><h2>هدف جدید</h2><div class="r
  +`<div class="card"><h2>پروژه جدید</h2><div class="row"><input id="pt" placeholder="عنوان پروژه" aria-label="پروژه"><select id="pg" aria-label="هدف مرتبط"><option value="">بدون هدف</option>${D.goals.map(g=>`<option value="${g.id}">${H(g.title)}</option>`).join('')}</select></div><button class="btn" style="margin-top:8px" onclick="addProj()">افزودن پروژه</button></div>`}
 // عادت‌ها
 const lg=(h,k)=>D.habitLogs.find(l=>l.id===h.id+'_'+k);
-const hdone=(h,k)=>{const l=lg(h,k);return !!l&&(h.type==='daily'||l.value>=(h.target||1))};
+let hdone=(h,k)=>{const l=lg(h,k);return !!l&&(h.type==='daily'||l.value>=(h.target||1))};
 function hstat(h){let a=0,s=0,m=0;for(let i=0;i<14;i++)if(hdone(h,back(i)))a++;for(let i=0;i<365;i++){if(hdone(h,back(i))){s++;m=0}else if(i>0){m++;if(m>1)break}}return{a,s}}
 async function addHab(){const t=$('#ht').value.trim();if(t)await save('habits',{title:t,type:$('#hy').value,target:+$('#hg').value||1})}
 async function logH(id,v){const old=D.habitLogs.find(l=>l.id===id+'_'+T);if(!v){if(old)await DB.del('habitLogs',old.id)}else await DB.put('habitLogs',{id:id+'_'+T,habitId:id,date:T,value:v});await load();render()}
