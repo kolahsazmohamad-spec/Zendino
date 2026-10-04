@@ -13,8 +13,8 @@ async function save(s,v){await DB.put(s,v);await load();render()}
 // پیشرفت: کار → پروژه → هدف
 const avg=a=>a.length?a.reduce((x,y)=>x+y,0)/a.length:0;
 const tp=t=>t.status==='done'?1:(t.subs&&t.subs.length?t.subs.filter(s=>s.d).length/t.subs.length:0);
-const pp=p=>avg(D.tasks.filter(t=>t.projectId===p.id).map(tp));
-const gp=g=>avg([...D.projects.filter(p=>p.goalId===g.id).map(pp),...D.tasks.filter(t=>t.goalId===g.id&&!t.projectId).map(tp)]);
+let pp=p=>avg(D.tasks.filter(t=>t.projectId===p.id).map(tp));
+let gp=g=>avg([...D.projects.filter(p=>p.goalId===g.id).map(pp),...D.tasks.filter(t=>t.goalId===g.id&&!t.projectId).map(tp)]);
 const bar=v=>`<div class="bar" role="progressbar" aria-valuenow="${Math.round(v*100)}"><i style="width:${v*100}%"></i></div>`;
 const open=t=>t.status!=='done';
 // کارها
